@@ -1,5 +1,9 @@
 import gql from "graphql-tag";
+import * as React from "react";
+import * as ReactApollo from "react-apollo";
+import * as ReactApolloHooks from "react-apollo-hooks";
 export type Maybe<T> = T | null;
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -99,3 +103,73 @@ export type User = {
   boards: Array<Board>;
   memberOf: Array<Org>;
 };
+export type BoardsQueryVariables = {};
+
+export type BoardsQuery = { __typename?: "Query" } & {
+  boards: Array<
+    { __typename?: "Board" } & Pick<Board, "title"> & {
+        columns: Array<
+          { __typename?: "Column" } & Pick<Column, "title"> & {
+              cards: Array<{ __typename?: "Card" } & Pick<Card, "title">>;
+            }
+        >;
+      }
+  >;
+};
+
+export const BoardsDocument = gql`
+  query Boards {
+    boards {
+      title
+      columns {
+        title
+        cards {
+          title
+        }
+      }
+    }
+  }
+`;
+export type BoardsComponentProps = Omit<
+  ReactApollo.QueryProps<BoardsQuery, BoardsQueryVariables>,
+  "query"
+>;
+
+export const BoardsComponent = (props: BoardsComponentProps) => (
+  <ReactApollo.Query<BoardsQuery, BoardsQueryVariables>
+    query={BoardsDocument}
+    {...props}
+  />
+);
+
+export type BoardsProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<BoardsQuery, BoardsQueryVariables>
+> &
+  TChildProps;
+export function withBoards<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    BoardsQuery,
+    BoardsQueryVariables,
+    BoardsProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    BoardsQuery,
+    BoardsQueryVariables,
+    BoardsProps<TChildProps>
+  >(BoardsDocument, {
+    alias: "withBoards",
+    ...operationOptions
+  });
+}
+
+export function useBoardsQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<BoardsQueryVariables>
+) {
+  return ReactApolloHooks.useQuery<BoardsQuery, BoardsQueryVariables>(
+    BoardsDocument,
+    baseOptions
+  );
+}
