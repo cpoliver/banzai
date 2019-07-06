@@ -109,8 +109,10 @@ export type BoardsQuery = { __typename?: "Query" } & {
   boards: Array<
     { __typename?: "Board" } & Pick<Board, "title"> & {
         columns: Array<
-          { __typename?: "Column" } & Pick<Column, "title"> & {
-              cards: Array<{ __typename?: "Card" } & Pick<Card, "title">>;
+          { __typename?: "Column" } & Pick<Column, "id" | "title"> & {
+              cards: Array<
+                { __typename?: "Card" } & Pick<Card, "id" | "title">
+              >;
             }
         >;
       }
@@ -122,8 +124,10 @@ export const BoardsDocument = gql`
     boards {
       title
       columns {
+        id
         title
         cards {
+          id
           title
         }
       }
