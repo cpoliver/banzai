@@ -10,22 +10,6 @@ interface BoardProps {
   data: BoardQuery;
 }
 
-const moveLeft = () => {
-  // if there is a column to the left, selectedColumn -- else, columnCount - 1
-};
-
-const moveDown = () => {
-  // selectedRow +1, that or selectedRow 0
-};
-
-const moveUp = () => {
-  // if there is a column to the left, selectedColumn -- else, columnCount - 1
-};
-
-const moveRight = () => {
-  // if there is a column to the left, selectedColumn -- else, columnCount - 1
-};
-
 const defaultSelectedCol = 0;
 const defaultSelectedRow = 0;
 
