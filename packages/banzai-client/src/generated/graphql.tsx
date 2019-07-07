@@ -103,36 +103,54 @@ export type User = {
   boards: Array<Board>;
   memberOf: Array<Org>;
 };
+export type CardFragment = { __typename?: "Card" } & Pick<Card, "id" | "title">;
+
+export type ColumnFragment = { __typename?: "Column" } & Pick<
+  Column,
+  "id" | "title"
+> & { cards: Array<{ __typename?: "Card" } & CardFragment> };
+
+export type BoardFragment = { __typename?: "Board" } & Pick<Board, "title"> & {
+    columns: Array<{ __typename?: "Column" } & ColumnFragment>;
+  };
+
 export type BoardsQueryVariables = {};
 
 export type BoardsQuery = { __typename?: "Query" } & {
-  boards: Array<
-    { __typename?: "Board" } & Pick<Board, "title"> & {
-        columns: Array<
-          { __typename?: "Column" } & Pick<Column, "id" | "title"> & {
-              cards: Array<
-                { __typename?: "Card" } & Pick<Card, "id" | "title">
-              >;
-            }
-        >;
-      }
-  >;
+  boards: Array<{ __typename?: "Board" } & BoardFragment>;
 };
-
+export const CardFragmentDoc = gql`
+  fragment Card on Card {
+    id
+    title
+  }
+`;
+export const ColumnFragmentDoc = gql`
+  fragment Column on Column {
+    id
+    title
+    cards {
+      ...Card
+    }
+  }
+  ${CardFragmentDoc}
+`;
+export const BoardFragmentDoc = gql`
+  fragment Board on Board {
+    title
+    columns {
+      ...Column
+    }
+  }
+  ${ColumnFragmentDoc}
+`;
 export const BoardsDocument = gql`
   query Boards {
     boards {
-      title
-      columns {
-        id
-        title
-        cards {
-          id
-          title
-        }
-      }
+      ...Board
     }
   }
+  ${BoardFragmentDoc}
 `;
 export type BoardsComponentProps = Omit<
   ReactApollo.QueryProps<BoardsQuery, BoardsQueryVariables>,
