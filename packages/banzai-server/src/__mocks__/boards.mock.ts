@@ -135,7 +135,7 @@ const englishColumns = [
 // @ts-ignore
 export const boards = {
   banzai: {
-    id: id(),
+    id: "banzai",
     title: "Trello Replacement for Power-Users",
     columns: banzaiColumns,
     owner: users.charlie,
@@ -143,7 +143,7 @@ export const boards = {
     permissions: [],
   },
   english: {
-    id: id(),
+    id: "english",
     title: "TeachFirst English Assignment",
     columns: englishColumns,
     owner: users.phoebe,

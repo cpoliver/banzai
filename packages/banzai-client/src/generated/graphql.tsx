@@ -90,8 +90,14 @@ export type Permission = {
 export type Query = {
   __typename?: "Query";
   board?: Maybe<Board>;
+  boards: Array<Board>;
   labels: Array<Label>;
+  orgs: Array<Org>;
   users: Array<User>;
+};
+
+export type QueryBoardArgs = {
+  id: Scalars["ID"];
 };
 
 export type User = {
@@ -113,10 +119,18 @@ export type BoardFragment = { __typename?: "Board" } & Pick<Board, "title"> & {
     columns: Array<{ __typename?: "Column" } & ColumnFragment>;
   };
 
-export type BoardQueryVariables = {};
+export type BoardQueryVariables = {
+  id: Scalars["ID"];
+};
 
 export type BoardQuery = { __typename?: "Query" } & {
   board: Maybe<{ __typename?: "Board" } & BoardFragment>;
+};
+
+export type BoardsQueryVariables = {};
+
+export type BoardsQuery = { __typename?: "Query" } & {
+  boards: Array<{ __typename?: "Board" } & Pick<Board, "id" | "title">>;
 };
 export const CardFragmentDoc = gql`
   fragment Card on Card {
@@ -144,8 +158,8 @@ export const BoardFragmentDoc = gql`
   ${ColumnFragmentDoc}
 `;
 export const BoardDocument = gql`
-  query Board {
-    board {
+  query Board($id: ID!) {
+    board(id: $id) {
       ...Board
     }
   }
@@ -154,7 +168,8 @@ export const BoardDocument = gql`
 export type BoardComponentProps = Omit<
   ReactApollo.QueryProps<BoardQuery, BoardQueryVariables>,
   "query"
->;
+> &
+  ({ variables: BoardQueryVariables; skip?: false } | { skip: true });
 
 export const BoardComponent = (props: BoardComponentProps) => (
   <ReactApollo.Query<BoardQuery, BoardQueryVariables>
@@ -191,6 +206,57 @@ export function useBoardQuery(
 ) {
   return ReactApolloHooks.useQuery<BoardQuery, BoardQueryVariables>(
     BoardDocument,
+    baseOptions
+  );
+}
+export const BoardsDocument = gql`
+  query Boards {
+    boards {
+      id
+      title
+    }
+  }
+`;
+export type BoardsComponentProps = Omit<
+  ReactApollo.QueryProps<BoardsQuery, BoardsQueryVariables>,
+  "query"
+>;
+
+export const BoardsComponent = (props: BoardsComponentProps) => (
+  <ReactApollo.Query<BoardsQuery, BoardsQueryVariables>
+    query={BoardsDocument}
+    {...props}
+  />
+);
+
+export type BoardsProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<BoardsQuery, BoardsQueryVariables>
+> &
+  TChildProps;
+export function withBoards<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    BoardsQuery,
+    BoardsQueryVariables,
+    BoardsProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    BoardsQuery,
+    BoardsQueryVariables,
+    BoardsProps<TChildProps>
+  >(BoardsDocument, {
+    alias: "withBoards",
+    ...operationOptions
+  });
+}
+
+export function useBoardsQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<BoardsQueryVariables>
+) {
+  return ReactApolloHooks.useQuery<BoardsQuery, BoardsQueryVariables>(
+    BoardsDocument,
     baseOptions
   );
 }

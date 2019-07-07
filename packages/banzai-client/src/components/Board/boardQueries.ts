@@ -26,22 +26,9 @@ export const BoardFragment = gql`
   }
 `;
 
-export const BOARDS_QUERY = gql`
-  query Boards {
-    boards {
-      ...Board
-    }
-  }
-`;
-
 export const BOARD_QUERY = gql`
-  # query Board($id: ID!) {
-  #   board(id: $id) {
-  #     ...Board
-  #   }
-  # }
-  query Board {
-    board {
+  query Board($id: ID!) {
+    board(id: $id) {
       ...Board
     }
   }
