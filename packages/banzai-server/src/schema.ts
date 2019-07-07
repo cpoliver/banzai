@@ -2,9 +2,8 @@ import { gql } from "apollo-server";
 
 export default gql`
   type Query {
-    testMessage: String!
-
-    boards: [Board!]!
+    board: Board
+    # boards: [Board!]!
     labels: [Label!]!
     users: [User!]!
   }

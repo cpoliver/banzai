@@ -1,16 +1,14 @@
 import React from "react";
 
-import { BoardsQuery } from "../../generated/graphql";
+import { BoardQuery } from "../../generated/graphql";
 import { Column } from "../Column/Column";
 
 interface BoardProps {
-  data: BoardsQuery;
+  data: BoardQuery;
 }
 
-export const Board: React.FC<BoardProps> = ({ data }) => {
-  const board = data.boards[0];
-
-  return (
+export const Board: React.FC<BoardProps> = ({ data: { board } }) =>
+  board ? (
     <div className="c-board">
       <h2>{board.title}</h2>
       <ol className="c-board__columns">
@@ -21,5 +19,4 @@ export const Board: React.FC<BoardProps> = ({ data }) => {
         ))}
       </ol>
     </div>
-  );
-};
+  ) : null;

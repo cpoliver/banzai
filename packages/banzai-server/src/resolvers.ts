@@ -117,11 +117,8 @@ const board = {
 
 export const resolvers = {
   Query: {
-    testMessage: (): string => {
-      return "Hello, World!";
-    },
-
-    boards: (): any => [board],
+    board: (): any => board,
+    // boards: (): any => [board],
     labels: (): any[] => values(labels),
     users: (): any[] => [user],
   },
