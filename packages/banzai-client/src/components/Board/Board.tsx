@@ -38,31 +38,31 @@ export const Board: React.FC<BoardProps> = ({ data: { board } }) => {
   const [selectedCol, setSelectedCol] = useState(0);
 
   // const useContext(BoardContext);
-  const colCount = () => pathOr(1, ["columns", "length"], board || {}) - 1;
+  const colCount = () => pathOr(0, ["columns", "length"], board);
+
+  const rowCount = () =>
+    pathOr(0, ["columns", selectedCol, "cards", "length"], board);
 
   useKey(["h"], () => {
     setSelectedCol(Math.max(0, selectedCol - 1));
+    const row = Math.min(rowCount() - 1, selectedRow);
+    console.log(`set row ${row}, ${rowCount()}`);
+    setSelectedRow(row);
   });
+
   useKey(["j"], () => {
-    const rowCount = pathOr(
-      0,
-      ["columns", selectedCol, "cards", "length"],
-      board,
-    );
-
-    setSelectedRow(Math.min(selectedRow + 1, rowCount - 1));
+    setSelectedRow(Math.min(selectedRow + 1, rowCount() - 1));
   });
-  useKey(["k"], () => {
-    const rowCount = pathOr(
-      0,
-      ["columns", selectedCol, "cards", "length"],
-      board,
-    );
 
+  useKey(["k"], () => {
     setSelectedRow(Math.max(selectedRow - 1, 0));
   });
+
   useKey(["l"], () => {
     setSelectedCol(Math.min(selectedCol + 1, colCount()));
+    const row = Math.min(rowCount() - 1, selectedRow);
+    console.log(`set row ${row}, ${rowCount()}`);
+    setSelectedRow(Math.min(rowCount() - 1, selectedRow));
   });
 
   return !board ? null : (
