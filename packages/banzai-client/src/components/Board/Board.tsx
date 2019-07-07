@@ -1,4 +1,6 @@
-import React from "react";
+import React, { createContext, useState } from "react";
+import useKey from "@rooks/use-key";
+import { pathOr } from "ramda";
 import * as R from "rebass";
 
 import { BoardQuery } from "../../generated/graphql";
@@ -8,14 +10,75 @@ interface BoardProps {
   data: BoardQuery;
 }
 
-export const Board: React.FC<BoardProps> = ({ data: { board } }) =>
-  board ? (
-    <R.Flex flexDirection="column">
-      <R.Heading>{board.title}</R.Heading>
-      <R.Flex>
-        {board.columns.map(c => (
-          <Column {...c} key={c.id} />
-        ))}
+const moveLeft = () => {
+  // if there is a column to the left, selectedColumn -- else, columnCount - 1
+};
+
+const moveDown = () => {
+  // selectedRow +1, that or selectedRow 0
+};
+
+const moveUp = () => {
+  // if there is a column to the left, selectedColumn -- else, columnCount - 1
+};
+
+const moveRight = () => {
+  // if there is a column to the left, selectedColumn -- else, columnCount - 1
+};
+
+const defaultSelectedCol = 0;
+const defaultSelectedRow = 0;
+
+export const BoardContext = createContext({
+  selected: { col: defaultSelectedCol, row: defaultSelectedRow },
+});
+
+export const Board: React.FC<BoardProps> = ({ data: { board } }) => {
+  const [selectedRow, setSelectedRow] = useState(0);
+  const [selectedCol, setSelectedCol] = useState(0);
+
+  // const useContext(BoardContext);
+  const colCount = () => pathOr(1, ["columns", "length"], board || {}) - 1;
+
+  useKey(["h"], () => {
+    setSelectedCol(Math.max(0, selectedCol - 1));
+  });
+  useKey(["j"], () => {
+    const rowCount = pathOr(
+      0,
+      ["columns", selectedCol, "cards", "length"],
+      board,
+    );
+
+    setSelectedRow(Math.min(selectedRow + 1, rowCount - 1));
+  });
+  useKey(["k"], () => {
+    const rowCount = pathOr(
+      0,
+      ["columns", selectedCol, "cards", "length"],
+      board,
+    );
+
+    setSelectedRow(Math.max(selectedRow - 1, 0));
+  });
+  useKey(["l"], () => {
+    setSelectedCol(Math.min(selectedCol + 1, colCount()));
+  });
+
+  return !board ? null : (
+    <BoardContext.Provider
+      value={{ selected: { col: selectedCol, row: selectedRow } }}
+    >
+      <R.Flex flexDirection="column">
+        <R.Heading>
+          {board.title} | x: {selectedCol} / y: {selectedRow}
+        </R.Heading>
+        <R.Flex>
+          {board.columns.map((c, i) => (
+            <Column {...c} key={c.id} index={i} />
+          ))}
+        </R.Flex>
       </R.Flex>
-    </R.Flex>
-  ) : null;
+    </BoardContext.Provider>
+  );
+};
