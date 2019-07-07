@@ -29,14 +29,14 @@ export const Card: React.FC<CardProps> = ({
   const isSelected = colIndex === selected.col && rowIndex === selected.row;
 
   return (
-    <R.Card
-      backgroundColor={isSelected ? "#121212" : "#333"}
-      borderRadius={4}
-      p={3}
-      m={2}
-    >
+    <R.Card backgroundColor={isSelected ? "#121212" : "#333"} p={3} m={2}>
       <R.Flex paddingTop={1} paddingBottom={2}>
-        <R.Text fontSize={1} flex={1}>
+        <R.Text
+          fontSize={1}
+          flex={1}
+          fontFamily="Oxygen"
+          style={{ textTransform: "capitalize" }}
+        >
           {title}
         </R.Text>
         <R.Box>
