@@ -3,8 +3,9 @@ import { gql } from "apollo-server";
 export default gql`
   type Query {
     board: Board
-    # boards: [Board!]!
+    boards: [Board!]!
     labels: [Label!]!
+    orgs: [Org!]!
     users: [User!]!
   }
 

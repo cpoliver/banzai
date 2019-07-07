@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.$NODE_ENV.js",
-    "dev": "NODE_ENV=dev npm run build",
+    "dev": "NODE_ENV=dev yarn build",
     "start": "node dist/server",
     "start:env": "node --require dotenv/config dist/server"
   },
