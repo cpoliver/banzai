@@ -1,4 +1,5 @@
 import React from "react";
+import * as R from "rebass";
 
 import { Card } from "../Card/Card";
 
@@ -9,14 +10,14 @@ interface ColumnProps {
 }
 
 export const Column: React.FC<ColumnProps> = ({ title, cards }) => (
-  <div className="c-column">
-    <h3>{title}</h3>
-    <ol className="c-column__cards">
+  <R.Flex flexDirection="column" flex={1} backgroundColor="#191919" m={2} p={2}>
+    <R.Heading fontSize={3} padding={2} textAlign="center">
+      {title} ({cards.length})
+    </R.Heading>
+    <R.Flex flexDirection="column">
       {cards.map(c => (
-        <li key={c.id}>
-          <Card {...c} />
-        </li>
+        <Card {...c} key={c.id} />
       ))}
-    </ol>
-  </div>
+    </R.Flex>
+  </R.Flex>
 );

@@ -1,4 +1,5 @@
 import React from "react";
+import * as R from "rebass";
 
 import { BoardQuery } from "../../generated/graphql";
 import { Column } from "../Column/Column";
@@ -9,14 +10,12 @@ interface BoardProps {
 
 export const Board: React.FC<BoardProps> = ({ data: { board } }) =>
   board ? (
-    <div className="c-board">
-      <h2>{board.title}</h2>
-      <ol className="c-board__columns">
+    <R.Flex flexDirection="column">
+      <R.Heading>{board.title}</R.Heading>
+      <R.Flex>
         {board.columns.map(c => (
-          <li key={c.id}>
-            <Column {...c} />
-          </li>
+          <Column {...c} key={c.id} />
         ))}
-      </ol>
-    </div>
+      </R.Flex>
+    </R.Flex>
   ) : null;
