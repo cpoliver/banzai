@@ -22,7 +22,13 @@ const lipsum = `
 
 const renderLabels = (labels: any[]) =>
   labels.map(l => (
-    <R.Box flex={1} width="100%" height="4px" backgroundColor={l.color}>
+    <R.Box
+      key={l.id}
+      flex={1}
+      width="100%"
+      height="4px"
+      backgroundColor={l.color}
+    >
       <div style={{ height: "2px" }} />
     </R.Box>
   ));

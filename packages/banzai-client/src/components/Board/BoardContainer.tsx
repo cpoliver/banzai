@@ -18,8 +18,8 @@ export const BoardContainer = () => {
 
   return (
     <>
-      <Board data={data} />
       <BoardBar data={data} />
+      <Board data={data} />
     </>
   );
 };

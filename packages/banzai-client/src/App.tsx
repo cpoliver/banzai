@@ -13,7 +13,7 @@ export const App: React.FC = () => (
         rel="stylesheet"
       />
     </Helmet>
-    <R.Flex className="App" flexDirection="column" p={5}>
+    <R.Flex flexDirection="column" p={3}>
       <AppBar title="Banzai" />
       <BoardContainer />
     </R.Flex>
