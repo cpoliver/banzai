@@ -12,22 +12,22 @@ const banzaiColumns = [
       {
         id: id(),
         title: "create persistence layer",
-        labels: [labels.dev],
+        labels: [labels.design, labels.planning],
       },
       {
         id: id(),
         title: "find styled-components ui kit",
-        labels: [labels.dev, labels.design],
+        labels: [labels.dev, labels.design, labels.planning],
       },
       {
         id: id(),
         title: "configure lerna",
-        labels: [labels.dev],
+        labels: [labels.dev, labels.planning],
       },
       {
         id: id(),
         title: "configure linting/formatting",
-        labels: [labels.dev],
+        labels: [labels.dev, labels.design],
       },
       {
         id: id(),

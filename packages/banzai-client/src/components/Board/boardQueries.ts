@@ -4,6 +4,10 @@ export const CardFragment = gql`
   fragment Card on Card {
     id
     title
+    labels {
+      color
+      title
+    }
   }
 `;
 

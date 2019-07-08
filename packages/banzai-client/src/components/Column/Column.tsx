@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 import { Card } from "../Card/Card";
-import F from "ramda/es/F";
 
 interface ColumnProps {
   id: String;

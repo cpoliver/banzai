@@ -108,7 +108,12 @@ export type User = {
   boards: Array<Board>;
   memberOf: Array<Org>;
 };
-export type CardFragment = { __typename?: "Card" } & Pick<Card, "id" | "title">;
+export type CardFragment = { __typename?: "Card" } & Pick<
+  Card,
+  "id" | "title"
+> & {
+    labels: Array<{ __typename?: "Label" } & Pick<Label, "color" | "title">>;
+  };
 
 export type ColumnFragment = { __typename?: "Column" } & Pick<
   Column,
@@ -136,6 +141,10 @@ export const CardFragmentDoc = gql`
   fragment Card on Card {
     id
     title
+    labels {
+      color
+      title
+    }
   }
 `;
 export const ColumnFragmentDoc = gql`

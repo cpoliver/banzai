@@ -3,9 +3,6 @@ import * as R from "rebass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-import { BoardQuery } from "../../generated/graphql";
-import { Column } from "../Column/Column";
-
 interface AppBarProps {
   title: string;
 }

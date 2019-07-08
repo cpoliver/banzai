@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useBoardQuery } from "../../generated/graphql";
 import { Board } from "./Board";
+import { BoardBar } from "./BoardBar";
 
 export const BoardContainer = () => {
   const { data, error, loading } = useBoardQuery({
@@ -11,9 +12,14 @@ export const BoardContainer = () => {
     return <div>Loading&hellip;</div>;
   }
 
-  if (error || !data) {
+  if (error || !data || !data.board) {
     return <div>Error!</div>;
   }
 
-  return <Board data={data} />;
+  return (
+    <>
+      <Board data={data} />
+      <BoardBar data={data} />
+    </>
+  );
 };

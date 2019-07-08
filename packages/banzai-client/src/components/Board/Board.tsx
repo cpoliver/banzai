@@ -21,7 +21,6 @@ export const Board: React.FC<BoardProps> = ({ data: { board } }) => {
   const [selectedRow, setSelectedRow] = useState(0);
   const [selectedCol, setSelectedCol] = useState(0);
 
-  // const useContext(BoardContext);
   const colCount = () => pathOr(0, ["columns", "length"], board);
 
   const rowCount = () =>
