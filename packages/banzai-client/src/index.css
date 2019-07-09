@@ -16,3 +16,9 @@ body {
   background: #121212;
   color: #e0e0e0;
 }
+
+textarea, input {
+  outline: none;
+  background: none;
+  border-bottom: 2px #E0E0E0 solid;
+}

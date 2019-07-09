@@ -15,28 +15,27 @@ const defaultSelectedRow = 0;
 
 interface Position {
   setSelected: (selected: number) => void;
-  selected: number;
+  selected: () => number;
   count: () => number;
 }
 
 const move = (col: Position, row: Position) => ({
   left: () => {
-    col.setSelected(Math.max(0, col.selected - 1));
+    col.setSelected(Math.max(0, col.selected() - 1));
 
     const r = row.count();
-    console.log(row.selected);
-    debugger;
-    row.setSelected(Math.min(r - 1, row.selected));
+    console.log(row.selected());
+    row.setSelected(Math.min(r - 1, row.selected()));
   },
   down: () => {
-    row.setSelected(Math.min(row.selected + 1, row.count() - 1));
+    row.setSelected(Math.min(row.selected() + 1, row.count() - 1));
   },
   up: () => {
-    row.setSelected(Math.max(row.selected - 1, 0));
+    row.setSelected(Math.max(row.selected() - 1, 0));
   },
   right: () => {
-    col.setSelected(Math.min(col.selected + 1, col.count()));
-    row.setSelected(Math.min(row.count() - 1, row.selected));
+    col.setSelected(Math.min(col.selected() + 1, col.count()));
+    row.setSelected(Math.min(row.count() - 1, row.selected()));
   },
 });
 
@@ -53,13 +52,13 @@ export const Board: React.FC<BoardProps> = ({ data: { board } }) => {
 
   const col = {
     setSelected: setSelectedCol,
-    selected: selectedCol,
+    selected: () => selectedCol,
     count: () => colCount(board),
   };
   const row = {
     setSelected: setSelectedRow,
-    selected: selectedRow,
-    count: () => rowCount(board),
+    selected: () => selectedRow,
+    count: () => (board ? board.columns[selectedRow].cards.length : 0),
   };
 
   const { left, down, up, right } = move(col, row);
