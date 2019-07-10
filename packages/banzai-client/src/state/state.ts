@@ -1,5 +1,5 @@
-import { cond, equals, evolve } from "ramda";
-import { mcall } from "q";
+import { cond, equals, T } from "ramda";
+import { faNetworkWired } from "@fortawesome/free-solid-svg-icons";
 
 interface AppState {
   board: BoardState;
@@ -32,7 +32,7 @@ export interface MoveInfo {
 
 type Direction = "left" | "up" | "down" | "right";
 
-const moveLeft = ({ selected, max }: MoveInfo) => {
+const moveLeft = ({ selected, max }: MoveInfo): SelectedState => {
   const newCol = selected.col - 1;
   const col = newCol < 0 ? max.col : newCol;
   const row = Math.min(max.row(col), selected.row);
@@ -43,7 +43,7 @@ const moveLeft = ({ selected, max }: MoveInfo) => {
   };
 };
 
-const moveDown = ({ selected, max }: MoveInfo) => {
+const moveDown = ({ selected, max }: MoveInfo): SelectedState => {
   const newRow = selected.row + 1;
   const row = newRow > max.row(selected.col) ? 0 : newRow;
 
@@ -53,7 +53,7 @@ const moveDown = ({ selected, max }: MoveInfo) => {
   };
 };
 
-const moveUp = ({ selected, max }: MoveInfo) => {
+const moveUp = ({ selected, max }: MoveInfo): SelectedState => {
   const newRow = selected.row - 1;
   const row = newRow < 0 ? max.row(selected.col) : newRow;
 
@@ -63,7 +63,7 @@ const moveUp = ({ selected, max }: MoveInfo) => {
   };
 };
 
-const moveRight = ({ selected, max }: MoveInfo) => {
+const moveRight = ({ selected, max }: MoveInfo): SelectedState => {
   const newCol = selected.col + 1;
   const col = newCol > max.col ? 0 : newCol;
   const row = Math.min(max.row(col), selected.row);
