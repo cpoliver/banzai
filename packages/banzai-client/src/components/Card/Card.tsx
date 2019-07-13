@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import * as R from "rebass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import { CardFragment, Label } from "../../generated/graphql";
+import { CardFragment, LabelFragment } from "../../generated/graphql";
 
 import { BoardContext } from "../Board/Board";
 
@@ -20,18 +20,17 @@ const lipsum = `
   erat ut turpis. Suspendisse... 
 `;
 
-const renderLabels = (labels: any[]) =>
-  labels.map(l => (
-    <R.Box
-      key={l.id}
-      flex={1}
-      width="100%"
-      height="4px"
-      backgroundColor={l.color}
-    >
-      <div style={{ height: "2px" }} />
-    </R.Box>
-  ));
+const renderLabel = (label: LabelFragment) => (
+  <R.Box
+    key={label.id}
+    flex={1}
+    width="100%"
+    height="4px"
+    backgroundColor={label.color}
+  >
+    <div style={{ height: "2px" }} />
+  </R.Box>
+);
 
 export const Card: React.FC<CardProps> = ({
   title,
@@ -44,8 +43,12 @@ export const Card: React.FC<CardProps> = ({
   const isSelected = colIndex === selected.col && rowIndex === selected.row;
 
   return (
-    <R.Card backgroundColor={isSelected ? "#121212" : "#333"} m={2}>
-      <R.Flex>{renderLabels(labels)}</R.Flex>
+    <R.Card
+      backgroundColor={isSelected ? "#121212" : "#333"}
+      m={2}
+      key={`${rowIndex}-${colIndex}`}
+    >
+      <R.Flex>{labels.map(renderLabel)}</R.Flex>
       <R.Flex p={3} flexDirection="column">
         <R.Flex paddingBottom={2}>
           <R.Text

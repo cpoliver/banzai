@@ -1,12 +1,19 @@
 import gql from "graphql-tag";
 
+export const LabelFragment = gql`
+  fragment Label on Label {
+    id
+    color
+    title
+  }
+`;
+
 export const CardFragment = gql`
   fragment Card on Card {
     id
     title
     labels {
-      color
-      title
+      ...Label
     }
   }
 `;

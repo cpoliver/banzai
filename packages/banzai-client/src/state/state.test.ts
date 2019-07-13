@@ -1,18 +1,10 @@
 import { assocPath } from "ramda";
 
+import { boards } from "../../../banzai-server/src/__mocks__/boards.mock";
 import { move } from "./state";
 
-const board = {
-  columns: [
-    { title: "TODO", cards: { length: 8 } },
-    { title: "DOING", cards: { length: 4 } },
-    { title: "BLOCKED", cards: { length: 1 } },
-    { title: "DONE", cards: { length: 10 } },
-  ],
-};
-
 const baseState = {
-  board,
+  board: boards.banzai,
   selected: {
     col: 0,
     row: 7,

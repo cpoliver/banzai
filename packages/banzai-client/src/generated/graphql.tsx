@@ -108,12 +108,15 @@ export type User = {
   boards: Array<Board>;
   memberOf: Array<Org>;
 };
+export type LabelFragment = { __typename?: "Label" } & Pick<
+  Label,
+  "id" | "color" | "title"
+>;
+
 export type CardFragment = { __typename?: "Card" } & Pick<
   Card,
   "id" | "title"
-> & {
-    labels: Array<{ __typename?: "Label" } & Pick<Label, "color" | "title">>;
-  };
+> & { labels: Array<{ __typename?: "Label" } & LabelFragment> };
 
 export type ColumnFragment = { __typename?: "Column" } & Pick<
   Column,
@@ -137,15 +140,22 @@ export type BoardsQueryVariables = {};
 export type BoardsQuery = { __typename?: "Query" } & {
   boards: Array<{ __typename?: "Board" } & Pick<Board, "id" | "title">>;
 };
+export const LabelFragmentDoc = gql`
+  fragment Label on Label {
+    id
+    color
+    title
+  }
+`;
 export const CardFragmentDoc = gql`
   fragment Card on Card {
     id
     title
     labels {
-      color
-      title
+      ...Label
     }
   }
+  ${LabelFragmentDoc}
 `;
 export const ColumnFragmentDoc = gql`
   fragment Column on Column {
