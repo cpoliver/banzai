@@ -1,5 +1,4 @@
 import { cond, equals, T } from "ramda";
-import { faNetworkWired } from "@fortawesome/free-solid-svg-icons";
 
 interface AppState {
   board: BoardState;
@@ -74,19 +73,24 @@ const moveRight = ({ selected, max }: MoveInfo): SelectedState => {
   };
 };
 
-export const move = (
-  { selected, board }: AppState,
-  direction: Direction,
-): SelectedState => {
-  const max = {
-    col: board.columns.length - 1,
-    row: (col: number) => board.columns[col].cards.length - 1,
+export const move = ({ selected, board }: AppState, direction: Direction): SelectedState => {
+  if (!board) {
+    return { col: 0, row: 0 };
+  }
+
+  const moveState = {
+    selected,
+    max: {
+      col: board.columns.length - 1,
+      row: (col: number) => board.columns[col].cards.length - 1,
+    },
   };
 
   return cond([
-    [equals("left"), () => moveLeft({ selected, max })],
-    [equals("down"), () => moveDown({ selected, max })],
-    [equals("up"), () => moveUp({ selected, max })],
-    [equals("right"), () => moveRight({ selected, max })],
+    [equals("left"), () => moveLeft(moveState)],
+    [equals("down"), () => moveDown(moveState)],
+    [equals("up"), () => moveUp(moveState)],
+    [equals("right"), () => moveRight(moveState)],
+    [T, () => {}]
   ])(direction);
 };
