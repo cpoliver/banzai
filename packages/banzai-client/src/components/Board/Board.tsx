@@ -4,7 +4,7 @@ import * as R from "rebass";
 
 import { BoardQuery } from "../../generated/graphql";
 import { Column } from "../Column/Column";
-import { move } from "../../state/state";
+import { moveSelection } from "../../state/state";
 
 interface BoardProps {
   data: BoardQuery;
@@ -41,25 +41,25 @@ export const Board: React.FC<BoardProps> = ({ data: { board } }) => {
   };
 
   useKey(["h"], () => {
-    const { col, row } = move(state, "left");
+    const { col, row } = moveSelection(state, "left");
     setSelectedCol(col);
     setSelectedRow(row);
   });
 
   useKey(["j"], () => {
-    const { col, row } = move(state, "down");
+    const { col, row } = moveSelection(state, "down");
     setSelectedCol(col);
     setSelectedRow(row);
   });
 
   useKey(["k"], () => {
-    const { col, row } = move(state, "up");
+    const { col, row } = moveSelection(state, "up");
     setSelectedCol(col);
     setSelectedRow(row);
   });
 
   useKey(["l"], () => {
-    const { col, row } = move(state, "right");
+    const { col, row } = moveSelection(state, "right");
     setSelectedCol(col);
     setSelectedRow(row);
   });

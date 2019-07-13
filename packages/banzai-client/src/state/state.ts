@@ -31,7 +31,7 @@ export interface MoveInfo {
 
 type Direction = "left" | "up" | "down" | "right";
 
-const moveLeft = ({ selected, max }: MoveInfo): SelectedState => {
+const moveSelectionLeft = ({ selected, max }: MoveInfo): SelectedState => {
   const newCol = selected.col - 1;
   const col = newCol < 0 ? max.col : newCol;
   const row = Math.min(max.row(col), selected.row);
@@ -42,7 +42,7 @@ const moveLeft = ({ selected, max }: MoveInfo): SelectedState => {
   };
 };
 
-const moveDown = ({ selected, max }: MoveInfo): SelectedState => {
+const moveSelectionDown = ({ selected, max }: MoveInfo): SelectedState => {
   const newRow = selected.row + 1;
   const row = newRow > max.row(selected.col) ? 0 : newRow;
 
@@ -52,7 +52,7 @@ const moveDown = ({ selected, max }: MoveInfo): SelectedState => {
   };
 };
 
-const moveUp = ({ selected, max }: MoveInfo): SelectedState => {
+const moveSelectionUp = ({ selected, max }: MoveInfo): SelectedState => {
   const newRow = selected.row - 1;
   const row = newRow < 0 ? max.row(selected.col) : newRow;
 
@@ -62,7 +62,7 @@ const moveUp = ({ selected, max }: MoveInfo): SelectedState => {
   };
 };
 
-const moveRight = ({ selected, max }: MoveInfo): SelectedState => {
+const moveSelectionRight = ({ selected, max }: MoveInfo): SelectedState => {
   const newCol = selected.col + 1;
   const col = newCol > max.col ? 0 : newCol;
   const row = Math.min(max.row(col), selected.row);
@@ -73,7 +73,10 @@ const moveRight = ({ selected, max }: MoveInfo): SelectedState => {
   };
 };
 
-export const move = ({ selected, board }: AppState, direction: Direction): SelectedState => {
+export const moveSelection = (
+  { selected, board }: AppState,
+  direction: Direction,
+): SelectedState => {
   if (!board) {
     return { col: 0, row: 0 };
   }
@@ -87,10 +90,10 @@ export const move = ({ selected, board }: AppState, direction: Direction): Selec
   };
 
   return cond([
-    [equals("left"), () => moveLeft(moveState)],
-    [equals("down"), () => moveDown(moveState)],
-    [equals("up"), () => moveUp(moveState)],
-    [equals("right"), () => moveRight(moveState)],
-    [T, () => {}]
+    [equals("left"), () => moveSelectionLeft(moveState)],
+    [equals("down"), () => moveSelectionDown(moveState)],
+    [equals("up"), () => moveSelectionUp(moveState)],
+    [equals("right"), () => moveSelectionRight(moveState)],
+    [T, () => {}],
   ])(direction);
 };
