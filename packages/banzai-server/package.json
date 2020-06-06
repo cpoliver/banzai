@@ -22,7 +22,7 @@
   "dependencies": {
     "@types/ramda": "^0.26.15",
     "@types/shortid": "^0.0.29",
-    "apollo-server": "^2.6.7",
+    "apollo-server": "^2.14.2",
     "graphql": "^14.4.2",
     "ramda": "^0.26.1",
     "shortid": "^2.2.14"
